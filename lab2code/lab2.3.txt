@@ -1,0 +1,95 @@
+class Category:
+    def __init__(self, id, name):
+        self.__id = id
+        self.__name = name
+        self.__recipes = []
+
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def recipes(self):
+        return self.__recipes
+
+    def add_recipe(self, recipe):
+        if recipe not in self.__recipes:
+            self.__recipes.append(recipe)
+            recipe.set_category(self)
+
+    def __str__(self):
+        return f"<Category {self.id}: {self.name}>"
+
+    def print_with_recipes(self):
+        print(self)
+        print(f"Category {self.name} has the following associated recipes: [", end="")
+        print(", ".join(str(r) for r in self.recipes), end="")
+        print("]")
+
+
+class Recipe:
+    def __init__(self, id, name, author, description, ingredients,
+                 instructions, cook_time, other_details, date_created):
+        self.__id = id
+        self.__name = name
+        self.__author = author
+        self.__description = description
+        self.__ingredients = ingredients
+        self.__instructions = instructions
+        self.__cook_time = cook_time
+        self.__other_details = other_details
+        self.__date_created = date_created
+        self.__categories = []
+
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def author(self):
+        return self.__author
+
+    @property
+    def description(self):
+        return self.__description
+
+    @property
+    def ingredients(self):
+        return self.__ingredients
+
+    @property
+    def instructions(self):
+        return self.__instructions
+
+    @property
+    def cook_time(self):
+        return self.__cook_time
+
+    @property
+    def other_details(self):
+        return self.__other_details
+
+    @property
+    def categories(self):
+        return self.__categories
+
+    @property
+    def date_created(self):
+        return self.__date_created
+
+    def set_category(self, category):
+        if category not in self.__categories:
+            self.__categories.append(category)
+            if self not in category.recipes:
+                category.add_recipe(self)
+
+    def __str__(self):
+        return f"<Recipe {self.name} with id: {self.id} was created by {self.author} on {self.date_created}>"
